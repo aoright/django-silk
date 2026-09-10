@@ -23,3 +23,12 @@ class TestByteStringCompatForResponse(TestCase):
         factory = ResponseModelFactory(mock)
         body, content = factory.body()
         self.assertDictEqual(json.loads(body), d)
+
+
+class TestPackageVersion(TestCase):
+    def test_version_defined(self):
+        import silk
+
+        self.assertIsInstance(silk.__version__, str)
+        self.assertTrue(len(silk.__version__) > 0)
+
