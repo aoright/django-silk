@@ -31,4 +31,3 @@ class TestPackageVersion(TestCase):
 
         self.assertIsInstance(silk.__version__, str)
         self.assertTrue(len(silk.__version__) > 0)
-
