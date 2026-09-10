@@ -26,8 +26,18 @@ class TestByteStringCompatForResponse(TestCase):
 
 
 class TestPackageVersion(TestCase):
-    def test_version_defined(self):
+    def test_version_falls_back_when_metadata_is_missing(self):
+        import importlib
+        import importlib.metadata
+        from unittest.mock import patch
+
         import silk
 
-        self.assertIsInstance(silk.__version__, str)
-        self.assertTrue(len(silk.__version__) > 0)
+        self.addCleanup(importlib.reload, silk)
+        with patch(
+            "importlib.metadata.version",
+            side_effect=importlib.metadata.PackageNotFoundError,
+        ):
+            importlib.reload(silk)
+
+        self.assertEqual(silk.__version__, "unknown")
